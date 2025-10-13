@@ -3,8 +3,6 @@ cc_library_shared {
     vendor: true,
 
     srcs: [
-        "ConfigParser.cpp",
-        "ConfigStore.cpp",
         "PlatformConfig.cpp",
     ],
 

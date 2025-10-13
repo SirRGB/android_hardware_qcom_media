@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------
-Copyright (c) 2009, 2015, 2018-2019, The Linux Foundation. All rights reserved.
+Copyright (c) 2009, 2015, 2018, The Linux Foundation. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -49,8 +49,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "qc_omx_core.h"
 #include "omx_core_cmp.h"
 #include <cutils/properties.h>
-
-#include "ConfigStore.h"
 
 extern omx_core_cb_type core[];
 extern const unsigned int SIZE_OF_CORE;
@@ -466,6 +464,7 @@ OMX_GetHandle(OMX_OUT OMX_HANDLETYPE*     handle,
     }
     if(cmp_index >= 0)
     {
+      char value[PROPERTY_VALUE_MAX];
       DEBUG_PRINT("getting fn pointer\n");
 
       // Load VPP omx component for decoder if vpp property is enabled
@@ -474,14 +473,10 @@ OMX_GetHandle(OMX_OUT OMX_HANDLETYPE*     handle,
       if (!strncmp(component[cmp_index].so_lib_name, hwDecLib, strlen(hwDecLib)) ||
           !strncmp(component[cmp_index].so_lib_name, swDecLib, strlen(swDecLib))) {
         bool isVppEnabled = false;
-        if (isConfigStoreEnabled()) {
-          getConfigStoreBool("vpp", "enable", &isVppEnabled, false);
-        } else {
-          char value[PROPERTY_VALUE_MAX];
-          if ((property_get("vendor.media.vpp.enable", value, NULL))
-               && (!strcmp("1", value) || !strcmp("true", value))) {
-            isVppEnabled = true;
-          }
+        char value[PROPERTY_VALUE_MAX];
+        if ((property_get("vendor.media.vpp.enable", value, NULL))
+             && (!strcmp("1", value) || !strcmp("true", value))) {
+          isVppEnabled = true;
         }
         if (isVppEnabled) {
           DEBUG_PRINT("VPP property is enabled");
