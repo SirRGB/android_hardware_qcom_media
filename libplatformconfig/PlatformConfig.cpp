@@ -112,7 +112,7 @@ ConfigError_t Config::getConfigStoreBool(const char *area, const char *config,
         return FAIL;
     }
 
-    CommandResult result = {Result::NOT_FOUND, 0};
+    CommandResult result;
     conf->mConfigStore->getConfig(area, config, [&](const CommandResult &res) {
         result = res;
     });
