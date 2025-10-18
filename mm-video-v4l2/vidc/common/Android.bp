@@ -3,8 +3,7 @@ cc_library_static {
     vendor: true,
 
     srcs: [
-        "src/extra_data_handler.cpp",
-        "src/vidc_color_converter.cpp",
+        "src/vidc_common.cpp",
         "src/vidc_vendor_extensions.cpp"
     ],
 
